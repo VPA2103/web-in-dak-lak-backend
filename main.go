@@ -19,6 +19,8 @@ func main() {
 		panic(err)
 	}
 
+	config.InitCloudinary()
+
 	//2. Tạo router mặc định
 	r := gin.Default()
 	config.SetupCORS(r)
@@ -29,19 +31,28 @@ func main() {
 		&models.User{},
 		&models.Category{},
 		&models.Product{},
+		&models.ProductImages{},
+		&models.ProductSpec{},
+		&models.ProductReview{},
 		&models.News{},
 		&models.Contact{},
 		&models.Slide{},
-		&models.ProductImage{},
-		&models.ProductSpec{},
-		&models.ProductReview{})
+		&models.Cart{},
+		&models.CartItem{},
+		&models.Order{},
+		&models.OrderItem{},
+		&models.UserAddress{})
 
 	// Route GET cơ bản
 	routes.UserRoute(r)
+	routes.ProductRoute(r)
+	routes.CategoryRoute(r)
 
 	protected := r.Group("/api")
 
 	protected.Use(auth.KeycloakMiddleware())
+
+	routes.UploadRoutes(r)
 
 	routes.AdminRoute(protected)
 	// Chạy server trên port 8080

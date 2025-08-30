@@ -67,6 +67,9 @@ func UpdateUser(c *gin.Context) {
 	c.JSON(http.StatusOK, user)
 }
 
-//func DeleteUser(c *gin.Context)  {
-//	var user models.User.id
-//}
+func DeleteUser(c *gin.Context) {
+	id := c.Param("id")
+	var user models.User
+	if err := config.DB.First(&user, id).Error; err != nil {
+	}
+}
