@@ -1,7 +1,6 @@
 package main
 
 import (
-	"backend/auth"
 	"backend/config"
 	_ "backend/config"
 	"backend/models"
@@ -14,10 +13,10 @@ import (
 
 func main() {
 	//1.
-	err := auth.InitKeycloak()
-	if err != nil {
-		panic(err)
-	}
+	//err := auth.InitKeycloak()
+	//if err != nil {
+	//	panic(err)
+	//}
 
 	config.InitCloudinary()
 
@@ -32,15 +31,15 @@ func main() {
 		&models.Category{},
 		&models.Product{},
 		&models.ProductImages{},
-		&models.ProductSpec{},
+		//&models.ProductSpec{},
 		&models.ProductReview{},
 		&models.News{},
 		&models.Contact{},
-		&models.Slide{},
-		&models.Cart{},
-		&models.CartItem{},
-		&models.Order{},
-		&models.OrderItem{},
+		//&models.Slide{},
+		//&models.Cart{},
+		//&models.CartItem{},
+		//&models.Order{},
+		//&models.OrderItem{},
 		&models.UserAddress{})
 
 	// Route GET cơ bản
@@ -48,13 +47,13 @@ func main() {
 	routes.ProductRoute(r)
 	routes.CategoryRoute(r)
 
-	protected := r.Group("/api")
+	//protected := r.Group("/api")
 
-	protected.Use(auth.KeycloakMiddleware())
+	//protected.Use(auth.KeycloakMiddleware())
 
 	routes.UploadRoutes(r)
 
-	routes.AdminRoute(protected)
+	//routes.AdminRoute(protected)
 	// Chạy server trên port 8080
 	r.Run(":8080")
 

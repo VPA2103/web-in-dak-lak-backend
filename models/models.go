@@ -47,13 +47,13 @@ type ProductImages struct {
 	Product   Product `gorm:"constraint:OnDelete:CASCADE;" json:"-"`
 }
 
-type ProductSpec struct {
-	ID        uint    `gorm:"primaryKey" json:"id"`
-	ProductID uint    `json:"productId"`
-	SpecName  string  `gorm:"size:150" json:"specName"`
-	SpecValue string  `gorm:"size:255" json:"specValue"`
-	Product   Product `gorm:"constraint:OnDelete:CASCADE;" json:"product"`
-}
+//type ProductSpec struct {
+//	ID        uint    `gorm:"primaryKey" json:"id"`
+//	ProductID uint    `json:"productId"`
+//	SpecName  string  `gorm:"size:150" json:"specName"`
+//	SpecValue string  `gorm:"size:255" json:"specValue"`
+//	Product   Product `gorm:"constraint:OnDelete:CASCADE;" json:"product"`
+//}
 
 type ProductReview struct {
 	ID        uint      `gorm:"primaryKey" json:"id"`
@@ -92,49 +92,49 @@ type Contact struct {
 	CreatedAt time.Time `json:"createdAt"`
 }
 
-type Slide struct {
-	ID        uint      `gorm:"primaryKey" json:"id"`
-	ImageURL  string    `gorm:"not null" json:"imageUrl"`
-	Title     string    `json:"title"`
-	Link      string    `json:"link"`
-	CreatedAt time.Time `json:"createdAt"`
-}
+//type Slide struct {
+//	ID        uint      `gorm:"primaryKey" json:"id"`
+//	ImageURL  string    `gorm:"not null" json:"imageUrl"`
+//	Title     string    `json:"title"`
+//	Link      string    `json:"link"`
+//	CreatedAt time.Time `json:"createdAt"`
+//}
 
-type Cart struct {
-	ID        uint      `gorm:"primaryKey" json:"id"`
-	UserID    uint      `json:"userId"`
-	User      User      `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" json:"user"`
-	CreatedAt time.Time `json:"createdAt"`
-}
+//type Cart struct {
+//	ID        uint      `gorm:"primaryKey" json:"id"`
+//	UserID    uint      `json:"userId"`
+//	User      User      `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" json:"user"`
+//	CreatedAt time.Time `json:"createdAt"`
+//}
 
-type CartItem struct {
-	ID        uint    `gorm:"primaryKey" json:"id"`
-	CartID    uint    `json:"cartId"`
-	ProductID uint    `json:"productId"`
-	Quantity  int     `gorm:"default:1" json:"quantity"`
-	Price     float64 `gorm:"type:decimal(12,2)" json:"price"`
-	Cart      Cart    `gorm:"constraint:OnDelete:CASCADE;" json:"cart"`
-	Product   Product `json:"product"`
-}
+//type CartItem struct {
+//	ID        uint    `gorm:"primaryKey" json:"id"`
+//	CartID    uint    `json:"cartId"`
+//	ProductID uint    `json:"productId"`
+//	Quantity  int     `gorm:"default:1" json:"quantity"`
+//	Price     float64 `gorm:"type:decimal(12,2)" json:"price"`
+//	Cart      Cart    `gorm:"constraint:OnDelete:CASCADE;" json:"cart"`
+//	Product   Product `json:"product"`
+//}
 
-type Order struct {
-	ID          uint      `gorm:"primaryKey" json:"id"`
-	UserID      uint      `json:"userId"`
-	User        User      `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;" json:"user"`
-	TotalAmount float64   `gorm:"type:decimal(12,2)" json:"totalAmount"`
-	Status      string    `gorm:"type:varchar(20);default:'pending'" json:"status"`
-	CreatedAt   time.Time `json:"createdAt"`
-}
+//type Order struct {
+//	ID          uint      `gorm:"primaryKey" json:"id"`
+//	UserID      uint      `json:"userId"`
+//	User        User      `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;" json:"user"`
+//	TotalAmount float64   `gorm:"type:decimal(12,2)" json:"totalAmount"`
+//	Status      string    `gorm:"type:varchar(20);default:'pending'" json:"status"`
+//	CreatedAt   time.Time `json:"createdAt"`
+//}
 
-type OrderItem struct {
-	ID        uint    `gorm:"primaryKey" json:"id"`
-	OrderID   uint    `json:"orderId"`
-	ProductID uint    `json:"productId"`
-	Quantity  int     `json:"quantity"`
-	Price     float64 `gorm:"type:decimal(12,2)" json:"price"`
-	Order     Order   `gorm:"constraint:OnDelete:CASCADE;" json:"order"`
-	Product   Product `json:"product"`
-}
+//type OrderItem struct {
+//	ID        uint    `gorm:"primaryKey" json:"id"`
+//	OrderID   uint    `json:"orderId"`
+//	ProductID uint    `json:"productId"`
+//	Quantity  int     `json:"quantity"`
+//	Price     float64 `gorm:"type:decimal(12,2)" json:"price"`
+//	Order     Order   `gorm:"constraint:OnDelete:CASCADE;" json:"order"`
+//	Product   Product `json:"product"`
+//}
 
 type UserAddress struct {
 	ID        uint   `gorm:"primaryKey" json:"id"`
