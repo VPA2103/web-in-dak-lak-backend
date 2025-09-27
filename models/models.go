@@ -8,7 +8,7 @@ type User struct {
 	Password  string    `gorm:"not null" json:"password"`
 	Email     string    `gorm:"unique;not null;size:150" json:"email"`
 	FullName  string    `gorm:"size:150" json:"fullName"`
-	Role      string    `gorm:"type:varchar(20);default:'user'" json:"role"`
+	Role      string    `gorm:"type:varchar(20);default:'USR'" json:"role"`
 	CreatedAt time.Time `json:"createdAt"`
 }
 
@@ -32,8 +32,8 @@ type Product struct {
 	MetaTitle       string          `form:"meta_title" json:"metaTitle"`
 	MetaDescription string          `form:"meta_description" json:"metaDescription"`
 	MetaKeywords    string          `form:"meta_keywords" json:"metaKeywords"`
-	OgImage         string          `json:"ogImage"`
-	CategoryID      uint            `json:"categoryId"`
+	OgImage         string          `form:"ogImage" json:"ogImage"`
+	CategoryID      uint            `form:"categoryId" json:"categoryId"`
 	ProductImages   []ProductImages `gorm:"foreignKey:ProductID" json:"images"`
 	CreatedAt       time.Time       `json:"createdAt"`
 	UpdatedAt       time.Time       `json:"updatedAt"`

@@ -18,24 +18,32 @@ func CreateProduct(c *gin.Context) {
 		return
 	}
 
+	// Lấy nhiều ảnh từ form-data (key = "images")
+	form, _ := c.MultipartForm()
+	files := form.File["images"]
+
+	if len(files) == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "No images uploaded"})
+		return
+	}
+
 	// Lưu product trước (để có ID)
 	if err := config.DB.Create(&product).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save product"})
 		return
 	}
 
-	// Lấy nhiều ảnh từ form-data (key = "images")
-	form, _ := c.MultipartForm()
-	files := form.File["images"]
-
 	var imageURLs []string
 
 	for i, file := range files {
-		src, _ := file.Open()
-		defer src.Close()
+		src, err := file.Open()
+		if err != nil {
+			continue
+		}
 
 		// Upload Cloudinary
 		resp, err := config.CLD.Upload.Upload(c, src, uploader.UploadParams{})
+		src.Close()
 		if err != nil {
 			continue // bỏ qua file lỗi
 		}
@@ -52,7 +60,7 @@ func CreateProduct(c *gin.Context) {
 		// Ảnh đầu tiên sẽ làm OgImage (ảnh đại diện)
 		if i == 0 {
 			product.OgImage = resp.SecureURL
-			config.DB.Save(&product)
+			config.DB.Model(&product).Update("og_image", resp.SecureURL)
 		}
 	}
 
@@ -74,18 +82,26 @@ func GetProduct(c *gin.Context) {
 
 func DeleteProduct(c *gin.Context) {
 	id := c.Param("id")
+
+	// Kiểm tra sản phẩm tồn tại không
 	var product models.Product
-	// Tìm sản phẩm theo id
 	if err := config.DB.First(&product, id).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Product not found"})
 		return
 	}
 
-	// Thực hiện xóa
+	// Xóa ảnh liên quan trước (nếu có)
+	if err := config.DB.Where("product_id = ?", id).Delete(&models.ProductImages{}).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete product images"})
+		return
+	}
+
+	// Xóa sản phẩm
 	if err := config.DB.Delete(&product).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete product"})
 		return
 	}
+
 	c.JSON(http.StatusOK, gin.H{"message": "Product deleted successfully"})
 }
 

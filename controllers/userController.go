@@ -70,6 +70,25 @@ func UpdateUser(c *gin.Context) {
 func DeleteUser(c *gin.Context) {
 	id := c.Param("id")
 	var user models.User
+
+	// Tìm user theo id
 	if err := config.DB.First(&user, id).Error; err != nil {
+		c.JSON(404, gin.H{
+			"error": "User not found",
+		})
+		return
 	}
+
+	// Xóa user
+	if err := config.DB.Delete(&user).Error; err != nil {
+		c.JSON(500, gin.H{
+			"error": "Failed to delete user",
+		})
+		return
+	}
+
+	c.JSON(200, gin.H{
+		"message": "User deleted successfully",
+		"user":    user,
+	})
 }
