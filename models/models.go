@@ -34,6 +34,7 @@ type Product struct {
 	MetaKeywords    string          `form:"meta_keywords" json:"metaKeywords"`
 	OgImage         string          `form:"ogImage" json:"ogImage"`
 	CategoryID      uint            `form:"categoryId" json:"categoryId"`
+	BrandID         uint            `form:"brandId" json:"brandId"`
 	ProductImages   []ProductImages `gorm:"foreignKey:ProductID" json:"images"`
 	CreatedAt       time.Time       `json:"createdAt"`
 	UpdatedAt       time.Time       `json:"updatedAt"`
@@ -90,6 +91,15 @@ type Contact struct {
 	Message   string    `gorm:"not null" json:"message"`
 	Status    string    `gorm:"type:varchar(20);default:'new'" json:"status"`
 	CreatedAt time.Time `json:"createdAt"`
+}
+
+type Brand struct {
+	ID        uint      `gorm:"primaryKey" json:"id"`
+	Name      string    `gorm:"not null;size:150" json:"name"`
+	Slug      string    `gorm:"unique;not null;size:150" json:"slug"`
+	Image     string    `json:"image"`
+	CreatedAt time.Time `json:"createdAt"`
+	Products  []Product `gorm:"foreignKey:BrandID" json:"products,omitempty"`
 }
 
 //type Slide struct {

@@ -63,6 +63,7 @@ func CreateProduct(c *gin.Context) {
 			config.DB.Model(&product).Update("og_image", resp.SecureURL)
 		}
 	}
+	config.DB.Preload("ProductImages").First(&product, product.ID)
 
 	c.JSON(http.StatusCreated, gin.H{
 		"message": "Tạo sản phẩm thành công",

@@ -26,21 +26,19 @@ func main() {
 
 	//
 	config.ConnectDB()
-	config.DB.AutoMigrate(
+	if err := config.DB.AutoMigrate(
 		&models.User{},
 		&models.Category{},
+		&models.Brand{},
 		&models.Product{},
 		&models.ProductImages{},
-		//&models.ProductSpec{},
 		&models.ProductReview{},
 		&models.News{},
 		&models.Contact{},
-		//&models.Slide{},
-		//&models.Cart{},
-		//&models.CartItem{},
-		//&models.Order{},
-		//&models.OrderItem{},
-		&models.UserAddress{})
+		&models.UserAddress{},
+	); err != nil {
+		panic("Migration failed: " + err.Error())
+	}
 
 	// Route GET cơ bản
 	routes.UserRoute(r)

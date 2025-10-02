@@ -26,12 +26,12 @@ func ConnectDB() {
 	}
 
 	DB = db
-	fmt.Println("Database connected successfully")
+	fmt.Println("✅ Database connected successfully")
 }
 
 func SetupCORS(r *gin.Engine) {
 	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:3000"}, // Next.js dev server
+		AllowOrigins:     []string{"http://localhost:3000"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
 		ExposeHeaders:    []string{"Content-Length"},
